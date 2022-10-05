@@ -9,8 +9,22 @@ module Exercise
         array.map { |element| element.positive? ? max(array) : element }
       end
 
-      def search(_array, _query)
-        0
+      def search(array, query)
+        search_helper(array, query, 0, array.length)
+      end
+
+      def search_helper(array, query, start_index, end_index)
+        middle_index = (start_index + end_index) / 2
+
+        return -1 if start_index == end_index
+
+        if array[middle_index] > query
+          search_helper(array, query, start_index, middle_index)
+        elsif array[middle_index] < query
+          search_helper(array, query, middle_index + 1, end_index)
+        else
+          middle_index
+        end
       end
     end
   end
