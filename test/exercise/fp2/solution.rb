@@ -5,7 +5,14 @@ module Exercise
       # Использовать свои написанные функции для реализации следующих - можно.
 
       # Написать свою функцию my_each
-      def my_each; end
+      def my_each
+        return to_enum unless block_given?
+        return [] if empty?
+
+        for item in self
+          yield(item)
+        end
+      end
 
       # Написать свою функцию my_map
       def my_map; end
