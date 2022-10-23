@@ -21,7 +21,25 @@ module Exercise
       def my_compact; end
 
       # Написать свою функцию my_reduce
-      def my_reduce; end
+      def my_reduce(*args)
+        return to_enum unless block_given?
+        return [] if empty?
+
+        return self[0] if length == 1
+
+        if args[0].present?
+          insert(0, args[0])
+          acc = args[0]
+        else
+          acc = self [0]
+        end
+
+        MyArray.new(self[1..size]).my_each do |element|
+          acc = yield(acc, element)
+        end
+        shift if args[0].present?
+        acc
+      end
     end
   end
 end
