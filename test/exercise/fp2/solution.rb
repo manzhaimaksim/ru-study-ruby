@@ -27,7 +27,15 @@ module Exercise
       end
 
       # Написать свою функцию my_compact
-      def my_compact; end
+      def my_compact
+        return [] if empty?
+
+        temp_array = MyArray.new([])
+        my_each do |item|
+          temp_array << item unless item.nil?
+        end
+        temp_array
+      end
 
       # Написать свою функцию my_reduce
       def my_reduce(*args)
