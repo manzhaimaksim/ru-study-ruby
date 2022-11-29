@@ -5,13 +5,13 @@ module Exercise
       # Использовать свои написанные функции для реализации следующих - можно.
 
       # Написать свою функцию my_each
-      def my_each
+      def my_each(&block)
         return to_enum unless block_given?
         return [] if empty?
 
-        for item in self
-          yield(item)
-        end
+        yield self[0]
+        MyArray.new(self[1..]).my_each(&block)
+        self
       end
 
       # Написать свою функцию my_map
