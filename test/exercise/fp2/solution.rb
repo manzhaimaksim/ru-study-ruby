@@ -38,24 +38,12 @@ module Exercise
       end
 
       # Написать свою функцию my_reduce
-      def my_reduce(*args)
+      def my_reduce(acc = nil, &block)
         return to_enum unless block_given?
         return [] if empty?
+        return acc.nil? ? self[0] : (yield acc, self[0]) if length == 1
 
-        return self[0] if length == 1
-
-        if args[0].present?
-          insert(0, args[0])
-          acc = args[0]
-        else
-          acc = self [0]
-        end
-
-        MyArray.new(self[1..size]).my_each do |element|
-          acc = yield(acc, element)
-        end
-        shift if args[0].present?
-        acc
+        yield MyArray.new(self[0..-2]).my_reduce(acc, &block), self[-1]
       end
     end
   end
