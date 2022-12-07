@@ -26,11 +26,7 @@ module Exercise
       def my_compact
         return [] if empty?
 
-        temp_array = MyArray.new([])
-        my_each do |item|
-          temp_array << item unless item.nil?
-        end
-        temp_array
+        my_reduce(MyArray.new) { |acc, element| element.nil? ? acc : acc << element }
       end
 
       # Написать свою функцию my_reduce
