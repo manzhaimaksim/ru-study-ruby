@@ -15,15 +15,11 @@ module Exercise
       end
 
       # Написать свою функцию my_map
-      def my_map
+      def my_map(&block)
         return to_enum unless block_given?
         return [] if empty?
 
-        temp_array = MyArray.new([])
-        for item in self
-          temp_array << yield(item)
-        end
-        temp_array
+        my_reduce(MyArray.new) { |acc, element| acc << block.call(element) }
       end
 
       # Написать свою функцию my_compact
