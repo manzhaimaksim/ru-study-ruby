@@ -5,16 +5,38 @@ module Exercise
       # Использовать свои написанные функции для реализации следующих - можно.
 
       # Написать свою функцию my_each
-      def my_each; end
+      def my_each(&block)
+        return to_enum unless block_given?
+        return [] if empty?
+
+        yield self[0]
+        MyArray.new(self[1..]).my_each(&block)
+        self
+      end
 
       # Написать свою функцию my_map
-      def my_map; end
+      def my_map(&block)
+        return to_enum unless block_given?
+        return [] if empty?
+
+        my_reduce(MyArray.new) { |acc, element| acc << block.call(element) }
+      end
 
       # Написать свою функцию my_compact
-      def my_compact; end
+      def my_compact
+        return [] if empty?
+
+        my_reduce(MyArray.new) { |acc, element| element.nil? ? acc : acc << element }
+      end
 
       # Написать свою функцию my_reduce
-      def my_reduce; end
+      def my_reduce(acc = nil, &block)
+        return to_enum unless block_given?
+        return [] if empty?
+        return acc.nil? ? self[0] : (yield acc, self[0]) if length == 1
+
+        yield MyArray.new(self[0..-2]).my_reduce(acc, &block), self[-1]
+      end
     end
   end
 end
